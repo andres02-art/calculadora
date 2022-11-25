@@ -65,3 +65,54 @@ function checkNum(str) {
   }
   return true;
 }
+tg = (x, y) =>{
+  return(x.target.matches(y))
+}
+document.addEventListener('DOMContentLoaded', (ev)=>{
+  function evalueEqualEquation(x, y, fullEquation) {
+    arrayXequation = EvaluateNumber(x.split(""))
+    arrayYequation = EvaluateNumber(y.split(""))
+    if (arrayYequation.filter((x)=> x === "x")) {
+      idx = arrayYequation.findIndex((x)=> x === "x")
+      idx += arrayXequation.length
+      console.log("es el numero ", idx)
+    }else{
+      console.log("hay x en x")
+    }
+    console.log(arrayXequation, arrayYequation, fullEquation)
+    console.log(fullEquation.length, arrayXequation.length+arrayYequation.length)
+
+  }
+  function EvaluateNumber(Array) {
+    let NewAarray = [], Concat = "";
+    Array.forEach((e)=>{
+      if (e.match(/[0-9]/)) {
+        Concat += e
+      }else if(!e.match(/[0-9]/)){
+        if (Concat !== "") NewAarray.push(Concat)
+        NewAarray.push(e)
+        Concat = ""
+      }else{
+        NewAarray.push(Concat)
+        Concat = ""
+      }
+    })
+    if (Concat !== "") NewAarray.push(Concat)
+    return NewAarray
+  }
+  function CheckEquation(equation) {
+    console.log(equation) 
+    if (equation.match('=')) {
+      // isso faz uma equação de primeiro nivel
+      sidesOfEquation = equation.split("=")
+      fullEquation = equation.split("")
+      fullEquation = EvaluateNumber(fullEquation)
+      evalueEqualEquation(sidesOfEquation[0], sidesOfEquation[1], fullEquation)
+    } else {
+      // isso faz uma operação comum
+    }
+  } 
+  document.addEventListener('click', (ev)=>{
+      if (ev.target.matches('#display'))  CheckEquation(ev.target.value)
+    })
+})
